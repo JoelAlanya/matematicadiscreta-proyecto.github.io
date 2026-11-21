@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#071b2c">
+  <meta name="description" content="EcoRoute RAEE FIEI: prototipo académico interactivo de registro, clasificación, rutas, trazabilidad y alertas de residuos electrónicos.">
+  <title>EcoRoute RAEE FIEI | Simulador universitario</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar" aria-label="Navegación principal">
+      <a class="brand" href="#inicio" data-view-link="inicio" aria-label="EcoRoute: inicio">
+        <span class="brand-mark" aria-hidden="true">e<span>↗</span></span>
+        <span class="brand-text"><strong>eco<span>route</span></strong><small>RAEE · FIEI</small></span>
+      </a>
+      <div class="sidebar-divider"></div>
+      <div class="nav-heading">PLATAFORMA</div>
+      <nav class="side-nav">
+        <a href="#inicio" class="nav-item active" data-view-link="inicio" aria-current="page"><span class="nav-icon">⌂</span> Resumen <span class="nav-suffix">01</span></a>
+        <a href="#inventario" class="nav-item" data-view-link="inventario"><span class="nav-icon">▦</span> Inventario <span class="nav-suffix">02</span></a>
+        <a href="#rutas" class="nav-item" data-view-link="rutas"><span class="nav-icon">⌁</span> Rutas y Dijkstra <span class="nav-suffix">03</span></a>
+        <a href="#trazabilidad" class="nav-item" data-view-link="trazabilidad"><span class="nav-icon">◎</span> Trazabilidad <span class="nav-suffix">04</span></a>
+        <a href="#alertas" class="nav-item" data-view-link="alertas"><span class="nav-icon">◇</span> Lógica de alertas <span class="nav-suffix">05</span></a>
+      </nav>
+      <div class="nav-heading nav-heading-gap">PRESENTACIÓN</div>
+      <nav class="side-nav">
+        <a href="#exposicion" class="nav-item" data-view-link="exposicion"><span class="nav-icon">▣</span> Modo exposición <span class="nav-suffix">06</span></a>
+      </nav>
+      <div class="side-spacer"></div>
+      <div class="side-note"><span class="side-note-icon">◉</span><strong>Prototipo académico</strong><p>Datos y recorridos ficticios. No conectado a sistemas de la UNFV.</p></div>
+      <div class="sidebar-foot">UNFV <span>·</span> Matemática Discreta <span>·</span> 2026</div>
+    </aside>
+
+    <div class="app-main">
+      <header class="topbar">
+        <div class="topbar-left"><button class="mobile-menu icon-btn" id="mobileMenu" aria-label="Abrir menú">☰</button><span class="breadcrumb">Universidad Nacional Federico Villarreal</span><span class="crumb-separator">/</span><strong id="currentViewName">Resumen</strong></div>
+        <div class="topbar-right"><span class="top-status"><i></i> Demo local</span><span class="top-avatar" title="Facultad de Ingeniería Electrónica e Informática">FIEI</span></div>
+      </header>
+      <main class="main-content" id="mainContent">
+        <div class="notice-bar" role="note"><span>ℹ</span> <strong>Escenario didáctico:</strong> los datos de residuos, pesos del grafo y reducción de distancia son ficticios; no reflejan resultados medidos en la FIEI. <button type="button" id="closeNotice" aria-label="Cerrar aviso">×</button></div>
+
+        <!-- RESUMEN -->
+        <section class="view active-view" id="view-inicio" aria-labelledby="inicio-title">
+          <div class="hero">
+            <div class="hero-copy">
+              <div class="eyebrow light"><span class="pulse-dot"></span> PROYECTO UNIVERSITARIO · 2026</div>
+              <h1 id="inicio-title">El futuro del reciclaje<br>empieza con <em>mejores rutas.</em></h1>
+              <p>Una plataforma académica para registrar, clasificar y planificar el recojo interno de RAEE aplicando <strong>matemática discreta.</strong></p>
+              <div class="hero-actions"><button class="btn btn-mint" data-jump="rutas">▶ Iniciar simulación</button><button class="btn btn-outline-light" data-jump="exposicion">▣ Modo exposición</button></div>
+              <div class="hero-caption">EcoRoute RAEE FIEI <span>·</span> Facultad de Ingeniería Electrónica e Informática</div>
+            </div>
+            <div class="hero-visual" aria-label="Ilustración conceptual de red de puntos H, A, B y C">
+              <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+              <svg viewBox="0 0 410 310" role="img" aria-label="Red de nodos conectados">
+                <defs><linearGradient id="heroLine" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#39e6c0"/><stop offset="1" stop-color="#6a9df6"/></linearGradient></defs>
+                <g stroke="url(#heroLine)" stroke-width="2.7" stroke-linecap="round" opacity=".85"><path d="M62 165L177 70L191 225L335 150" fill="none"/><path d="M62 165L191 225M177 70L335 150" fill="none" opacity=".35"/></g>
+                <g class="hero-node"><circle cx="62" cy="165" r="28" fill="#26d9b2"/><text x="62" y="172" text-anchor="middle" fill="#062739">H</text><circle cx="177" cy="70" r="27"/><text x="177" y="77" text-anchor="middle">A</text><circle cx="191" cy="225" r="27"/><text x="191" y="232" text-anchor="middle">B</text><circle cx="335" cy="150" r="27"/><text x="335" y="157" text-anchor="middle">C</text></g>
+                <g class="hero-distance"><text x="98" y="105">20 m</text><text x="157" y="157">10 m</text><text x="258" y="205">15 m</text></g>
+              </svg>
+              <span class="hero-floating top">G = (V, E, w)</span><span class="hero-floating bottom"><strong>90 m</strong> Ruta demostrativa</span>
+            </div>
+          </div>
+
+          <div class="section-heading small-heading"><div><div class="eyebrow">PANORAMA DEL PROTOTIPO</div><h2>Indicadores del escenario</h2></div><span class="subtle-tag">Datos ficticios · modelo 2026</span></div>
+          <div class="metrics-grid">
+            <article class="metric"><div class="metric-top"><span>Registros de ejemplo</span><span class="metric-symbol green">▦</span></div><div class="metric-value" id="metricRecords">4</div><div class="metric-foot">Elementos en el simulador</div></article>
+            <article class="metric"><div class="metric-top"><span>Ruta optimizada</span><span class="metric-symbol blue">⌁</span></div><div class="metric-value">90 <small>m</small></div><div class="metric-foot">Visita A, B, C y vuelve a H</div></article>
+            <article class="metric"><div class="metric-top"><span>Diferencia demostrativa</span><span class="metric-symbol teal">↘</span></div><div class="metric-value">18,18<small>%</small></div><div class="metric-foot">Frente a 110 m de referencia</div></article>
+            <article class="metric"><div class="metric-top"><span>Estados de seguimiento</span><span class="metric-symbol amber">◎</span></div><div class="metric-value">5</div><div class="metric-foot">Registro hasta entrega validada</div></article>
+          </div>
+
+          <div class="overview-bottom">
+            <article class="panel overview-steps"><div class="panel-header"><div><div class="eyebrow">METODOLOGÍA</div><h3>¿Cómo funciona EcoRoute?</h3></div></div>
+              <div class="workflow"><div class="workflow-step"><span class="workflow-num">01</span><div><strong>Clasificar</strong><p>Una categoría principal por equipo; riesgo como atributo independiente.</p></div></div><div class="workflow-step"><span class="workflow-num">02</span><div><strong>Optimizar</strong><p>Grafo ponderado + Dijkstra + comparación de órdenes de visita.</p></div></div><div class="workflow-step"><span class="workflow-num">03</span><div><strong>Dar seguimiento</strong><p>Autómata de cinco estados y constancia para cerrar la entrega.</p></div></div><div class="workflow-step"><span class="workflow-num">04</span><div><strong>Priorizar</strong><p>Álgebra booleana: f = q ∨ (p ∧ r).</p></div></div></div>
+            </article>
+            <article class="panel overview-comparison"><div class="panel-header"><div><div class="eyebrow">COMPARACIÓN ACADÉMICA</div><h3>Ruta de referencia vs. óptima</h3></div><button class="text-link" data-jump="rutas">Ver grafo ↗</button></div>
+              <div class="compare-line"><div class="compare-label"><span>Referencia</span><strong>110 m</strong></div><div class="compare-track"><div class="compare-fill baseline" style="width:100%"></div></div></div>
+              <div class="compare-line"><div class="compare-label"><span>Optimizada</span><strong>90 m</strong></div><div class="compare-track"><div class="compare-fill optimized" style="width:81.818%"></div></div></div>
+              <div class="saving-box"><span>↓</span><div><strong>20 metros de diferencia</strong><p>Reducción relativa del 18,18 %, solo en el escenario ficticio.</p></div></div>
+              <div class="small-formula">(110 − 90) / 110 × 100 = 18,18 %</div>
+            </article>
+          </div>
+          <footer class="view-footer">Basado en: <em>EcoRoute RAEE FIEI: Plataforma web para la gestión y optimización logística de residuos electrónicos mediante modelado discreto y teoría de algoritmos</em> (2026). Autores: Joel Felipe Alanya Silvera, Kiara Belén Aguirre Gamboa y Gerald Yamir Rojas Manrique.</footer>
+        </section>
+
+        <!-- INVENTARIO -->
+        <section class="view" id="view-inventario" aria-labelledby="inventario-title" hidden>
+          <div class="page-head"><div class="eyebrow">MÓDULO 01 · CONJUNTOS Y EQUIVALENCIA</div><h1 id="inventario-title">Inventario inteligente</h1><p>Registra elementos RAEE y observa cómo se forman las clases de equivalencia por su <strong>categoría principal única</strong>.</p></div>
+          <div class="content-grid side-form-grid"><article class="panel"><div class="panel-header"><div><h3>Elementos registrados</h3><p id="inventoryCountText">4 registros de prueba</p></div><button class="btn btn-quiet btn-small" id="exportData">↓ Exportar JSON</button></div><div class="table-tools"><input id="inventorySearch" type="search" placeholder="Buscar por ID o descripción..." aria-label="Buscar registros"><select id="inventoryFilter" aria-label="Filtrar categoría"><option value="all">Todas las categorías</option><option value="Componentes informáticos">Componentes informáticos</option><option value="Cableado y accesorios">Cableado y accesorios</option><option value="Baterías: evaluación especializada">Baterías: evaluación especializada</option><option value="Evaluación pendiente">Evaluación pendiente</option></select></div><div class="table-wrap"><table class="data-table"><thead><tr><th>ID</th><th>Elemento</th><th>Categoría</th><th>Punto</th><th>Estado</th><th>Señal</th></tr></thead><tbody id="inventoryBody"></tbody></table></div><p class="panel-caption">P1, P2, C1 y B1 proceden del ejemplo del informe. Las ubicaciones de muestra de la web son ficticias.</p></article>
+          <article class="panel form-panel"><div class="panel-header"><div><h3>Agregar registro</h3><p>Simulación sin conexión a servidores</p></div><span class="circle-icon">＋</span></div><form id="inventoryForm" class="form-stack"><label>ID único<input id="newId" placeholder="Ej.: X1" maxlength="18" required pattern="[A-Za-z0-9-]+" title="Usa letras, números o guiones"></label><label>Descripción<input id="newDescription" maxlength="70" placeholder="Ej.: Teclado en desuso" required></label><label>Categoría principal<select id="newCategory" required><option value="Componentes informáticos">Componentes informáticos</option><option value="Cableado y accesorios">Cableado y accesorios</option><option value="Baterías: evaluación especializada">Baterías: evaluación especializada</option><option value="Evaluación pendiente">Evaluación pendiente</option></select></label><label>Punto de muestra<select id="newLocation"><option value="A">Punto A</option><option value="B">Punto B</option><option value="C">Punto C</option></select></label><label class="check-line"><input type="checkbox" id="newRisk"> Requiere evaluación especializada (señal)</label><button class="btn btn-primary btn-full" type="submit">＋ Registrar elemento</button></form></article></div>
+          <article class="panel grouping-panel"><div class="panel-header"><div><div class="eyebrow">RELACIÓN DE EQUIVALENCIA</div><h3>Partición del conjunto de elementos</h3></div><span class="math-chip">x ~ y ⇔ c(x) = c(y)</span></div><div id="categoryGroups" class="category-groups"></div><p class="helper-text">Cada elemento pertenece exactamente a una categoría principal. Una bandera de riesgo no crea una segunda categoría. En el informe: A/∼ = {{P1, P2}, {C1}, {B1}}.</p></article>
+          <div class="bottom-actions"><button class="btn btn-quiet" id="resetInventory">↺ Restablecer datos de ejemplo</button><button class="btn btn-primary" data-jump="trazabilidad">Continuar a trazabilidad →</button></div>
+        </section>
+
+        <!-- RUTAS -->
+        <section class="view" id="view-rutas" aria-labelledby="rutas-title" hidden>
+          <div class="page-head"><div class="eyebrow">MÓDULO 02 · TEORÍA DE GRAFOS</div><h1 id="rutas-title">Laboratorio de rutas</h1><p>Comprueba con <strong>Dijkstra</strong> los caminos más cortos y simula un recorrido cerrado que visita A, B y C y regresa a la base H.</p></div>
+          <div class="route-stat-strip"><span>4 vértices</span><span>5 aristas</span><span>Pesos no negativos (m)</span><span>Grafo no dirigido</span></div>
+          <div class="content-grid route-grid">
+            <article class="panel graph-panel"><div class="panel-header"><div><h3>Grafo ponderado del informe</h3><p>Selecciona una acción para resaltar conexiones.</p></div><span class="subtle-tag">H · A · B · C</span></div>
+              <div class="graph-frame"><svg id="routeGraph" viewBox="0 0 720 410" role="img" aria-label="Grafo no dirigido: H-A 20 m, H-B 35 m, A-B 10 m, A-C 40 m, B-C 15 m">
+                <g id="graphEdges" class="graph-edges"><line data-edge="H-A" x1="105" y1="210" x2="300" y2="85"/><line data-edge="H-B" x1="105" y1="210" x2="300" y2="320"/><line data-edge="A-B" x1="300" y1="85" x2="300" y2="320"/><line data-edge="A-C" x1="300" y1="85" x2="600" y2="210"/><line data-edge="B-C" x1="300" y1="320" x2="600" y2="210"/></g>
+                <g class="edge-labels"><g transform="translate(189 127)"><rect x="-29" y="-17" width="58" height="34" rx="10"/><text text-anchor="middle" y="6">20 m</text></g><g transform="translate(185 294)"><rect x="-29" y="-17" width="58" height="34" rx="10"/><text text-anchor="middle" y="6">35 m</text></g><g transform="translate(300 201)"><rect x="-29" y="-17" width="58" height="34" rx="10"/><text text-anchor="middle" y="6">10 m</text></g><g transform="translate(453 120)"><rect x="-29" y="-17" width="58" height="34" rx="10"/><text text-anchor="middle" y="6">40 m</text></g><g transform="translate(461 296)"><rect x="-29" y="-17" width="58" height="34" rx="10"/><text text-anchor="middle" y="6">15 m</text></g></g>
+                <g class="graph-nodes"><g data-node="H" transform="translate(105 210)"><circle r="33"/><text text-anchor="middle" y="8">H</text><text class="node-subtitle" text-anchor="middle" y="57">BASE</text></g><g data-node="A" transform="translate(300 85)"><circle r="33"/><text text-anchor="middle" y="8">A</text><text class="node-subtitle" text-anchor="middle" y="57">PUNTO A</text></g><g data-node="B" transform="translate(300 320)"><circle r="33"/><text text-anchor="middle" y="8">B</text><text class="node-subtitle" text-anchor="middle" y="57">PUNTO B</text></g><g data-node="C" transform="translate(600 210)"><circle r="33"/><text text-anchor="middle" y="8">C</text><text class="node-subtitle" text-anchor="middle" y="57">PUNTO C</text></g></g>
+                <circle id="vehicleMarker" cx="105" cy="210" r="12" class="vehicle-marker" visibility="hidden"/>
+              </svg></div>
+              <div class="graph-legend"><span><i class="legend-swatch teal"></i> Ruta seleccionada</span><span><i class="legend-swatch muted"></i> Otras conexiones</span><span><i class="legend-dot"></i> Posición simulada</span></div>
+              <p class="panel-caption" id="graphNarration" aria-live="polite">El nodo H representa la base. El grafo es ficticio y no corresponde al plano de la FIEI.</p>
+            </article>
+            <article class="panel control-panel"><div class="panel-header"><div><div class="eyebrow">SIMULADOR PRINCIPAL</div><h3>Recojo interno de RAEE</h3></div><span class="status-dot-tag">Interactivo</span></div>
+              <div class="control-box"><label class="form-caption" for="routeOrder">Orden de visita</label><select id="routeOrder" class="large-select"><option value="A-B-C">H → A → B → C → H</option><option value="A-C-B">H → A → C → B → H</option><option value="B-A-C">H → B → A → C → H</option><option value="B-C-A">H → B → C → A → H</option><option value="C-A-B">H → C → A → B → H</option><option value="C-B-A">H → C → B → A → H</option></select><div class="route-price"><span>Distancia calculada</span><strong id="routeCost">90 <small>m</small></strong></div><div class="route-characteristic" id="routeQuality">✓ Una de las cuatro rutas de menor costo</div><div class="route-sequence" id="routePhysical">H – A – B – C – B – A – H</div><div class="button-row"><button id="runRoute" class="btn btn-primary grow">▶ Simular recorrido</button><button id="stopRoute" class="btn btn-quiet" title="Detener y reiniciar">↺</button></div><p id="routeStatus" class="simulation-status" aria-live="polite">Simulador listo. Presiona “Simular recorrido”.</p></div>
+              <div class="formula-panel"><span>COMPARACIÓN CON LA REFERENCIA</span><div class="formula-values"><strong>110 m</strong><span>→</span><strong id="activeRouteMeters">90 m</strong></div><div id="routeDifference" class="formula-savings">20 m menos · 18,18 % de diferencia</div><small>Referencia: H–B–C–A–H por aristas directas, 110 m. La comparación principal del informe corresponde al recorrido de 90 m.</small></div>
+            </article>
+          </div>
+          <div class="content-grid route-lower-grid">
+            <article class="panel"><div class="panel-header"><div><div class="eyebrow">ALGORITMO DE DIJKSTRA</div><h3>Camino mínimo desde H</h3></div></div><div class="dijkstra-controls"><label>Destino<select id="dijkstraTarget"><option value="C">C (ejemplo del informe)</option><option value="B">B</option><option value="A">A</option></select></label><button class="btn btn-primary btn-small" id="nextDijkstra">Siguiente paso →</button><button class="btn btn-quiet btn-small" id="resetDijkstra">↺</button></div><div class="dijkstra-result"><strong id="dijkstraSummary">H → A → B → C = 45 m</strong><span id="dijkstraStepText">Haz clic en «Siguiente paso» para ver cómo se actualizan las distancias.</span></div><div class="table-wrap"><table class="data-table numeric-table"><thead><tr><th>Vértice</th><th>d(H)</th><th>d(A)</th><th>d(B)</th><th>d(C)</th></tr></thead><tbody id="dijkstraBody"></tbody></table></div></article>
+            <article class="panel"><div class="panel-header"><div><div class="eyebrow">ENUMERACIÓN EXHAUSTIVA</div><h3>Los 6 órdenes de visita</h3></div><span class="math-chip">3! = 6</span></div><div class="table-wrap"><table class="data-table compact-table"><thead><tr><th>Orden</th><th>Costo total</th><th>Evaluación</th></tr></thead><tbody id="routeOptionsBody"></tbody></table></div><p class="helper-text">Dijkstra obtiene distancias mínimas entre puntos; comparar órdenes de visita es un paso adicional. Cuatro órdenes empatan en 90 m.</p></article>
+          </div>
+        </section>
+
+        <!-- TRAZABILIDAD -->
+        <section class="view" id="view-trazabilidad" aria-labelledby="trazabilidad-title" hidden>
+          <div class="page-head"><div class="eyebrow">MÓDULO 03 · AUTÓMATAS FINITOS</div><h1 id="trazabilidad-title">Trazabilidad verificable</h1><p>Un autómata controla los cambios de estado. <strong>No es posible saltar etapas</strong> ni confirmar una entrega sin constancia.</p></div>
+          <div class="content-grid trace-grid"><article class="panel trace-main"><div class="panel-header"><div><h3>Seguimiento del elemento</h3><p>Selecciona un registro del inventario.</p></div><select id="traceItem" aria-label="Seleccionar elemento"></select></div>
+            <div class="state-flow" id="stateFlow"></div><div class="trace-selected"><div><span>ELEMENTO SELECCIONADO</span><strong id="traceItemName">P1 · Placa electrónica</strong><small id="traceCurrentState">Estado actual: registrado</small></div><span class="state-pill" id="tracePill">Registrado</span></div>
+            <div class="state-buttons"><button class="btn btn-primary" id="advanceState">Confirmar siguiente etapa →</button><button class="btn btn-quiet" id="skipState">Probar entrega directa</button></div><label class="receipt-input">Constancia de recepción (necesaria para la última etapa)<input id="receiptNumber" maxlength="50" placeholder="Ej.: CONSTANCIA-DEMO-001"><small>Este campo simula un documento: no genera una constancia institucional válida.</small></label><button class="text-link fill-example" id="fillReceipt">Insertar ejemplo de constancia ↗</button><div id="traceFeedback" class="inline-feedback" role="status">Selecciona una acción para continuar.</div></article>
+            <article class="panel history-panel"><div class="panel-header"><div><h3>Historial de eventos</h3><p>Registro local de la demostración</p></div><span class="subtle-tag">Auditoría</span></div><div id="historyList" class="history-list"></div><p class="helper-text">Cada transición almacena su fecha y responsable simulado. Un evento inválido no modifica el estado.</p></article></div>
+          <article class="panel"><div class="panel-header"><div><div class="eyebrow">REGLAS DE TRANSICIÓN</div><h3>Función δ del autómata</h3></div><span class="math-chip">M = (S, Σ, δ, s₀, F)</span></div><div class="transition-grid"><div>Registrado <b>→</b> Clasificado <small>Asignar categoría</small></div><div>Clasificado <b>→</b> Almacenado <small>Confirmar ubicación</small></div><div>Almacenado <b>→</b> Recolectado <small>Confirmar retiro</small></div><div>Recolectado <b>→</b> Entregado <small>Constancia validada</small></div></div></article>
+        </section>
+
+        <!-- ALERTAS -->
+        <section class="view" id="view-alertas" aria-labelledby="alertas-title" hidden>
+          <div class="page-head"><div class="eyebrow">MÓDULO 04 · LÓGICA PROPOSICIONAL</div><h1 id="alertas-title">Motor de alertas booleanas</h1><p>Prueba diferentes condiciones para saber cuándo se activa una alerta de atención prioritaria.</p></div>
+          <div class="content-grid alert-grid"><article class="panel alert-controls"><div class="panel-header"><div><h3>Configura el escenario</h3><p>Modifica las entradas de la función.</p></div><span class="math-chip">f = q ∨ (p ∧ r)</span></div>
+            <div class="slider-block"><div class="control-label"><span>Ocupación del contenedor</span><strong id="occupancyOutput">65 %</strong></div><input type="range" id="occupancy" min="0" max="100" value="65" aria-label="Porcentaje de ocupación"><div class="range-labels"><span>0 %</span><span>Umbral p = 1 desde 80 %</span><span>100 %</span></div></div>
+            <label class="switch-line"><div><strong>q · Señal de riesgo reportada</strong><small>Requiere evaluación especializada</small></div><input type="checkbox" id="riskToggle" role="switch"><span class="switch-ui"></span></label>
+            <label class="switch-line"><div><strong>r · Punto de alta afluencia</strong><small>Área con tránsito frecuente</small></div><input type="checkbox" id="trafficToggle" role="switch"><span class="switch-ui"></span></label>
+            <div class="logic-states"><div><span>p</span><strong id="logicP">0</strong><small>Ocupación ≥ 80 %</small></div><div><span>q</span><strong id="logicQ">0</strong><small>Señal reportada</small></div><div><span>r</span><strong id="logicR">0</strong><small>Alta afluencia</small></div></div>
+            <div class="presets"><span>CASOS PARA DEMOSTRAR</span><div class="preset-row"><button class="btn btn-quiet btn-small" data-preset="risk">Riesgo activo</button><button class="btn btn-quiet btn-small" data-preset="full">80 % + afluencia</button><button class="btn btn-quiet btn-small" data-preset="ordinary">Atención ordinaria</button></div></div>
+          </article><article class="panel alert-result"><div class="panel-header"><div><h3>Resultado de la regla</h3><p>Evaluación en tiempo real</p></div></div><div class="logic-result" id="logicResult"><div class="logic-bubble" id="logicBubble">0</div><div class="logic-result-title" id="logicTitle">Atención ordinaria</div><p id="logicExplanation">No se cumplen las condiciones para activar la alerta prioritaria.</p><div class="logic-calculation" id="logicCalculation">f = 0 ∨ (0 ∧ 0) = 0</div></div><div class="safety-note">La alerta es <strong>informativa</strong>. No autoriza manipular equipos ni reemplaza protocolos de seguridad. El 80 % es un umbral didáctico, no una norma legal.</div></article></div>
+          <article class="panel"><div class="panel-header"><div><div class="eyebrow">DEMOSTRACIÓN MATEMÁTICA</div><h3>Tabla de verdad completa</h3></div><span class="subtle-tag">8 combinaciones</span></div><div class="table-wrap"><table class="data-table truth-table"><thead><tr><th>p · Ocupación</th><th>q · Riesgo</th><th>r · Afluencia</th><th>f = q ∨ (p ∧ r)</th><th>Resultado</th></tr></thead><tbody id="truthBody"></tbody></table></div></article>
+        </section>
+
+        <!-- EXPOSICIÓN -->
+        <section class="view" id="view-exposicion" aria-labelledby="exposicion-title" hidden><div class="page-head"><div class="eyebrow">GUION DE PRESENTACIÓN</div><h1 id="exposicion-title">Modo exposición</h1><p>Una guía para explicar el informe en clase y pasar directamente a las simulaciones en vivo.</p></div><div class="presentation-frame"><div class="presentation-top"><span class="presentation-chip">ECO<span>ROUTE</span> · UNFV</span><span id="slideNumber">01 / 07</span></div><div class="presentation-body" id="slideBody" aria-live="polite"></div><div class="presentation-controls"><span id="slideDots" class="slide-dots" aria-label="Progreso de la exposición"></span><div class="button-row"><button class="btn btn-quiet" id="prevSlide">← Anterior</button><button class="btn btn-primary" id="nextSlide">Siguiente →</button></div></div></div><div class="speaker-note"><span>💡</span><p><strong>Consejo:</strong> explica el concepto y luego pulsa «Abrir simulación» para demostrarlo. Puedes usar las flechas ← → del teclado para cambiar de diapositiva.</p></div></section>
+      </main>
+    </div>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
